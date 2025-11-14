@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1_README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="1-%F0%9F%97%BA%EF%B8%8F-cabe%C3%A7alho-e-informa%C3%A7%C3%B5es-b%C3%A1sicas">1. 🗺️ Cabeçalho e Informações Básicas</h2>
+<h1 id="sistema-de-gest%C3%A3o-de-vendas---tech-vendas">Sistema de Gestão de Vendas - Tech Vendas</h1>
+<p><strong>Disciplina:</strong> Programação para Ciência de Dados<br>
+<strong>Curso:</strong> MBA Ciência de Dados - UNIFOR<br>
+<strong>Instrutor:</strong> Cássio Pinheiro<br>
+<strong>Integrantes:</strong> Stevens de Castro Maia | Matrícula:2529157
+<strong>Repositório GitHub:</strong> [(https://github.com/stevens-castro/mba_project)]</p>
+<h2 id="2-%F0%9F%93%8B-objetivo">2. 📋 Objetivo</h2>
+<p>Desenvolver um sistema simples para gestão de vendas para lojas de pequeno porte com foco em venda de equipamentos eletrônicos. O público
+alvo inicial do projeto serão os empreendedores que não tem capital para investir em uma plataforma de vendas completas e que utilizam o excel para gerenciar suas vendas.
+Dessa forma estamos entregando uma solução de baixo custo que permitirá o início das operações com as funcionalidades básicas, permitindo uma gestão mínima das vendas.</p>
+<p>O sistema permitirá a gestão das vendas, dos produtos e dos vendedores. Com essas informações o gerente de vendas poderá tomar decisões baseadas em dados,
+permitindo ações como, campanhas promocionais para incentivar as vendas de produtos com maior retorno, quais os vendedores destaque e quais estão abaixo do esperado,
+assim como uma visão sobre o desempenho das vendas no período e qual regiao tem melhores oportunidades para a ampliação por meio de um dashboard interativo.</p>
+<h2 id="3-%F0%9F%93%8A-diagrama-de-contexto">3. 📊 Diagrama de Contexto</h2>
+<pre><code class="language-mermaid"><div class="mermaid">---
+config:
+  layout: fixed
+---
+flowchart TD
+    n2["Inicializando<br>o Sistema"] --> n3["Checa/Cria<br>Repositório de Dados"] & n4["Limpar<br>Console"]
+    n3 --> A["Menu Principal"]
+    n4 --> A
+    A --> B["Gestão de Vendas<br>"] & C["Relatórios<br>Gerenciais"] & n5["Salvar<br>Venda"] & n9["Sair"]
+    n2@{ shape: rounded}
+    A@{ shape: rounded}
+    B@{ shape: rounded}
+    C@{ shape: rounded}
+    n5@{ shape: rounded}
+    n9@{ shape: rounded}
+    n8@{ icon: "fa:file-lines", pos: "b", h: 1}
+    n7@{ icon: "azure:azure-fileshares", pos: "b", h: 48}
+    n10@{ icon: "azure:users", pos: "b", h: 48}
+    style n2 fill:#000000,color:#FFFFFF
+    style n3 fill:#d6d6d6
+    style n4 fill:#d6d6d6
+    style A fill:#053C80,color:#FFFFFF
+    style B fill:#FFD600,color:#616161
+    style C fill:#FFF9C4
+    style n5 fill:#FF6D00,color:#FFFFFF
+    style n9 color:#424242,fill:#FFE0B2
+    style n8 stroke:#000000
+</div></code></pre>
+<h2 id="4-%F0%9F%94%A7-funcionalidades-implementadas">4. 🔧 Funcionalidades Implementadas</h2>
+<ol>
+<li>
+<p><strong>Cadastrar Nova Venda</strong></p>
+<ul>
+<li>Registrar venda com as seguintes informações ( data_venda, regiao, vendedor, cliente, id_produto, produto, quantidade, preco_unitario, custo_unitario,  faturamento, lucro)</li>
+<li>Valor total da venda campo calculado automaticamente por meio da multiplicação do valor unitário pela quantidade vendida</li>
+<li>Validação dos dados de entrada, prevenindo que informações inconsistentes sejam inseridas na base de dados</li>
+</ul>
+</li>
+<li>
+<p><strong>Relatório de desempenho de vendas por vendedor</strong></p>
+<ul>
+<li>Campos do relatório</li>
+<li>Vendedor (Agrupador)
+<ul>
+<li>Quantidade</li>
+<li>Faturamento</li>
+<li>Lucro</li>
+<li>Ranking de vendedores --&gt; Classificação feita pelo faturamento( Ordem Decrescente)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Relatório de vendas por região</strong></p>
+<ul>
+<li>Campos do relatório</li>
+<li>Regiao
+<ul>
+<li>Produto</li>
+<li>Faturamento</li>
+</ul>
+</li>
+<li>Relatório Agrupado por região e produto</li>
+</ul>
+</li>
+<li>
+<p><strong>Relatório de vendas por produto</strong></p>
+<ul>
+<li>Campos do relatório</li>
+<li>Produto
+<ul>
+<li>Quantidade</li>
+<li>Faturamento</li>
+<li>Lucro</li>
+</ul>
+</li>
+<li>Relatório Agrupado por produto</li>
+</ul>
+</li>
+<li>
+<p><strong>Relatório de Faturamento Anual</strong></p>
+<ul>
+<li>Campos do relatório
+<ul>
+<li>Ano/Mês
+<ul>
+<li>Região</li>
+<li>Cliente</li>
+<li>Faturamento</li>
+<li>Custo</li>
+<li>Faturamento Médio</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Salvar Venda no BD</strong></p>
+<ul>
+<li>Salva os dados em memória(listas, dicionários) das vendas para o arquivo 'vendas.csv localizado na pasta 'data' do sistema</li>
+<li>Esta função permite salvar um ou mais registros de vendas na mesma sessão e mostra a quantidade de registros salvos</li>
+</ul>
+</li>
+<li>
+<p><strong>Dataset Info</strong></p>
+<ul>
+<li>Função para exibir informações sobre o nosso banco de dados('vendas.csv)</li>
+</ul>
+</li>
+<li>
+<p><strong>Módulo Gerador de dataset</strong></p>
+<ul>
+<li>Mdulo para gerar dados fictícios para testes do sistema e validação das funcionalidades</li>
+<li>Ideal para demonstração do produto antes da implantação</li>
+</ul>
+</li>
+<li>
+<p><strong>Módulo Dashboard_Vendas</strong></p>
+<ul>
+<li>Módulo Web da aplicção que exibe os relatórios de forma gráfica e interativa</li>
+<li>Esse módulo possue as seguintes métricas:
+<ul>
+<li>Faturamento, quantidades de vendas, Lucros e ticket médio</li>
+<li>Visões
+<ul>
+<li>Faturamento e Lucro ao longo do tempo</li>
+<li>Comparativo faturamento por região</li>
+<li>Quantidade de vendas realizadas por região</li>
+</ul>
+</li>
+<li>Esse módulo permite filtros por região específica para análise das métricas definidas (Faturamento, Lucro e Quantidade de produtos vendidos).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Módulo Análise Exploratória</strong></p>
+</li>
+</ol>
+<ul>
+<li>Módulo para análise inicial da base dados.</li>
+<li>Utilizada para entendimento dos dados e identificação de possíveis ajustes e tratamentos na base de dados.</li>
+<li>Além de permitir uma análise exploratória sobre a base de dados</li>
+</ul>
+<h2 id="5-%F0%9F%8E%B2-estrutura-de-dados-da-aplica%C3%A7%C3%A3o">5. 🎲 Estrutura de Dados da Aplicação</h2>
+<h3 id="menu-principal">Menu Principal</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Dicionário que exibe o Menu Principal do Sistema</span>
+    dict_Menu = {
+        <span class="hljs-string">"1"</span>: <span class="hljs-string">"Cadastrar Nova Venda"</span>,
+        <span class="hljs-string">"2"</span>: <span class="hljs-string">"Relatório de Vendas por Vendedor"</span>,
+        <span class="hljs-string">"3"</span>: <span class="hljs-string">"Relatório de Vendas por Região"</span>,
+        <span class="hljs-string">"4"</span>: <span class="hljs-string">"Relatório de Vendas por Produto"</span>,
+        <span class="hljs-string">"5"</span>: <span class="hljs-string">"Relatório Faturamento Anual"</span>,
+        <span class="hljs-string">"6"</span>: <span class="hljs-string">"Salvar Venda no BD"</span>,
+        <span class="hljs-string">"7"</span>: <span class="hljs-string">"Dataset Info"</span>,
+        <span class="hljs-string">"8"</span>: <span class="hljs-string">"Sair"</span>,
+       
+    }
+</div></code></pre>
+<h3 id="entrada">Entrada</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Venda individual</span>
+ nova_venda = {
+        <span class="hljs-string">"data"</span>: data_venda,        
+        <span class="hljs-string">"regiao"</span>: regiao,
+        <span class="hljs-string">"vendedor"</span>: vendedor,
+        <span class="hljs-string">"cliente"</span>: cliente,
+        <span class="hljs-string">"id_produto"</span>: id_produto,
+        <span class="hljs-string">"produto"</span>: produto,       
+        <span class="hljs-string">"quantidade"</span>: quantidade,
+        <span class="hljs-string">"preco_unitario"</span>: preco_unitario,
+        <span class="hljs-string">"custo_unitario"</span>: custo_unitario,
+        <span class="hljs-string">"receita"</span>: receita,
+        <span class="hljs-string">"lucro"</span>: lucro ,             
+        
+    }  
+    <span class="hljs-comment"># ... mais vendas  </span>
+</div></code></pre>
+<h3 id="sa%C3%ADda">Saída</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Lista de vendas cadastradas</span>
+vendas = [
+    {
+        <span class="hljs-string">'Data'</span>: <span class="hljs-string">'2024-01-15'</span>,        
+        <span class="hljs-string">'Regiao'</span>: <span class="hljs-string">'Nordeste'</span>,
+        <span class="hljs-string">'Produto'</span>: <span class="hljs-string">'Notebook Dell'</span>,
+        <span class="hljs-string">'Vendedor'</span>: <span class="hljs-string">'Fernanda'</span>,
+        <span class="hljs-string">'Cliente'</span>: <span class="hljs-string">'João de Deus'</span>,
+        <span class="hljs-string">'Id_Produto'</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-string">'Produto'</span>: <span class="hljs-string">'WebCam_4k'</span>,
+        <span class="hljs-string">'Quantidade'</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-string">"Preco_Unitario"</span>: <span class="hljs-number">10000.00</span>,
+        <span class="hljs-string">'Custo_Unitario'</span>: <span class="hljs-number">3500.00</span>,
+        <span class="hljs-string">'Faturamento'</span>: <span class="hljs-number">7000.00</span>, <span class="hljs-comment"># Valor unitário x quantidade ,</span>
+        <span class="hljs-string">'Lucro'</span>: <span class="hljs-number">5000.00</span>, <span class="hljs-comment"># Faturamento - Custo Total   </span>
+    },
+    <span class="hljs-comment"># ... mais vendas</span>
+]
+
+<span class="hljs-comment"># Estatísticas por vendedor</span>
+relatorio_vendedor = {
+    <span class="hljs-string">'Maria Silva'</span>: {
+        <span class="hljs-string">'Produto'</span>:<span class="hljs-string">'Notebook'</span>, 
+        <span class="hljs-string">'Quantidade_vendas'</span>: <span class="hljs-number">3</span>,
+        <span class="hljs-string">'Faturamento'</span>: <span class="hljs-number">12500.00</span>,        
+        <span class="hljs-string">'Lucro'</span>: <span class="hljs-number">4166.67</span>
+    }
+}
+
+
+<span class="hljs-comment"># Estatísticas por região</span>
+relatorio_regiao = {
+    <span class="hljs-string">'Sudeste'</span>: {
+        <span class="hljs-string">'Produto'</span>:<span class="hljs-string">'WebCam 4k'</span>, 
+        <span class="hljs-string">'Faturamento'</span>: <span class="hljs-number">1250.00</span>,         
+    }
+}
+
+<span class="hljs-comment"># Estatísticas por produto</span>
+estatisticas_produto = {
+    <span class="hljs-string">'Notebook Dell'</span>: {
+        <span class="hljs-string">'Quantidade_vendida'</span>: <span class="hljs-number">4</span>,
+        <span class="hljs-string">'Faturamento'</span>: <span class="hljs-number">14000.00</span>,        
+        <span class="hljs-string">'Lucro'</span>: <span class="hljs-number">10000.00</span>
+    }
+}
+
+<span class="hljs-comment"># Faturamento Anual</span>
+estatisticas_produto = {
+    <span class="hljs-string">'Ano '</span>: {
+        <span class="hljs-string">'mes'</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-string">'Regiao'</span>: <span class="hljs-string">'Centro Oeste'</span>,
+        <span class="hljs-string">'Cliente'</span>: <span class="hljs-string">'Fernanda'</span>,
+        <span class="hljs-string">'Faturamento'</span>: <span class="hljs-number">14000.00</span>,        
+        <span class="hljs-string">'Custo'</span>: <span class="hljs-number">1500.00</span>,        
+        <span class="hljs-string">'Faturamento Médio'</span>: <span class="hljs-number">6790.00</span>        
+    }
+}
+
+</div></code></pre>
+<h2 id="6-%F0%9F%92%BB-requisitos-t%C3%A9cnicos">6. 💻 Requisitos Técnicos</h2>
+<ul>
+<li>
+<p>Python 3.12</p>
+</li>
+<li>
+<p>Versão do Python utilizada</p>
+<ul>
+<li>Python 3.12.3</li>
+</ul>
+</li>
+<li>
+<p>Bibliotecas e dependências</p>
+<ul>
+<li>pandas 2.3.3</li>
+<li>numpy 2.3.4</li>
+<li>matplotlib 3.10.7</li>
+<li>seaborn 0.13.2</li>
+<li>streamlit 1.50.0</li>
+<li>count from itertools 3.12.3 # Biblioteca nativa do python</li>
+<li>datetime from datetime 3.12.3 # Biblioteca nativa do python</li>
+<li>A aplicação possui arquivo 'requirements.txt' que contém a lista completa de todas as bibliotecas e suas respectivas versões necessárias para o aplicativo</li>
+</ul>
+</li>
+<li>
+<p>Requisitos de sistema</p>
+</li>
+<li>
+<p>Windows e ou linux com pyhton 3.12 instalado</p>
+</li>
+<li>
+<p>Bibliotecas python necessarias descritas no item 'Bibliotecas e Dependências'</p>
+</li>
+<li>
+<p>Navegador web para acessar o módulo do dashboard interativo</p>
+</li>
+<li>
+<p>Como instalar as dependências</p>
+</li>
+<li>
+<p>Baixe e Instale a versão do python 3.12.3 no seu computador.</p>
+<ul>
+<li>Acesse o site 'https://www.python.org/downloads/' e escolha a versão de acordo com seu sistema operacional(Windows\Linux)</li>
+<li>Siga o passo a passo da instalação.</li>
+</ul>
+</li>
+<li>
+<p>Após a instalação do python</p>
+<ul>
+<li>Windows --&gt; Acesse o 'prompt de comando' e depois execute o comando python - V para verificar se o python já está ativo no seu ambiente.</li>
+<li>Linux --&gt; Acesse o 'terminal' e depois execute o comando python3 --version para verificar se o python já está ativo no seu ambiente.</li>
+<li>O retorno dos comandos acima deve algo semelhante a: &quot;Python 3.12.3&quot;</li>
+</ul>
+</li>
+<li>
+<p>Instalando as dependencias</p>
+<ul>
+<li>Caso o python esteja instalado corretamente no seu ambiente, ainda no terminal execute os seguintes comandos para instalar as bibliotecas necessárias:
+<ul>
+<li>pip install pandas streamlit seaborn matplotlib, aguarde a instalação terminar.</li>
+</ul>
+</li>
+<li>Para ambientes novos onde temos apenas o python instalado recomendamos instalar todas a bibliotecas de forma automática, utilizando o 'requirements.txt' disponibilizado na pasta do sistema.
+<ul>
+<li>Acesse a pasta onde foi feito o downlodas dos aruivos do sistema e execute o comando: pip install -r requirement.txt. Todas a bibliotecas necessárias serão instaladas automaticamente.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-%F0%9F%95%B9%EF%B8%8F-como-executar-o-projeto">7. 🕹️ Como Executar o Projeto</h2>
+<ul>
+<li>
+<p>Após seguir os passos descritos no item 6 desse manual o aplicativo Tech Vendas estará pronto para ser executado.</p>
+</li>
+<li>
+<p>🚀 Iniciando o aplicativo:</p>
+<ul>
+<li>Crie uma pasta no seu sistema operacional chamada Tech_Vendas</li>
+<li>Copie e cole os arquivos do aplicativo que você recebeu por email</li>
+<li>Acese o terminal no ambiente e execute os seguintes passos para iniciar o sistema Tech Vendas:
+<ul>
+<li>Acesse o terminal de acordo com o seu ambiente e acesse a pasta Tech_vendas
+<ul>
+<li>'C:&gt;cd Tech_Vendas'</li>
+<li>'C:\Tech_Vendas&gt;python sistema_vendas.py'</li>
+<li>Você deverá ver a seguinte tela</li>
+<li><img src=".\imagens\menu_principal.png" alt="Menu Principal"></li>
+</ul>
+</li>
+<li>O Menu é intuítivo e guia você por cada funcionalidade do sistema</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>📊 Executando a Análise Exploratória da base de dado</p>
+<ul>
+<li>
+<p>Acesse o terminal do seu computador de acordo com o seu ambiente e acesse a pasta do sistema Tech_vendas</p>
+<ul>
+<li>'C:&gt;cd Tech_Vendas'</li>
+<li>Execute o comando: 'C:\Tech_Vendas&gt;python eda_vendas_base.py'. Você receberá um relatório exploratório da sua base semelhante a a imagem abaixo</li>
+<li><img src=".\imagens\eda_vendas.png" alt="Análise Exploratória"></li>
+</ul>
+</li>
+<li>
+<p>📉 Dashboard Interativo</p>
+<ul>
+<li>Acesse o terminal do seu computador de acordo com o seu ambiente e acesse a pasta do sistema Tech_vendas
+<ul>
+<li>'C:&gt;cd Tech_Vendas'</li>
+<li>Execute o comando: 'streamlit run dashboard._vendas.py'. Será aberta o navegadro padrão do seu ambiente com o dashboard interativo.</li>
+<li><img src=".\imagens\dashboard.png" alt="Dashboard"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-%F0%9F%93%88-an%C3%A1lises-realizadas">8. 📈 Análises Realizadas</h2>
+<ul>
+<li>
+<p>Visualizações criadas e seus propósitos</p>
+</li>
+<li>
+<p>Análise de Vendas por Vendedor --&gt; Verificar o desempenho dos vendedores</p>
+</li>
+<li>
+<p>Análise de Vendas por Região --&gt; Ánálise do faturamento em cada região do país</p>
+</li>
+<li>
+<p>Análise de Vendas por produto --&gt; Qualificar os meus produtos por faturamento, custo e lucro</p>
+</li>
+<li>
+<p>Análise de Faturamento Anual --&gt; Panorama geral das vendas no período</p>
+</li>
+<li>
+<p>Faturamento ao longo do tempo</p>
+</li>
+<li>
+<p>Lucro ao longo do tempo</p>
+</li>
+<li>
+<p>Comparativo de faturamento por região</p>
+</li>
+<li>
+<p>Principais insights encontrados</p>
+</li>
+<li>
+<p>As regiões Nordeste e Centro Oeste tem os melhores faturamentos seguidas da regioão norte</p>
+</li>
+<li>
+<p>Em julho de 2024 foi o mês com o melhor faturamento e com maior lucro de todo período</p>
+</li>
+<li>
+<p>Eduardo é o vendedor com maior faturamento no em todo o período com R4 24.264.539,50</p>
+</li>
+<li>
+<p>Placa de Vídeo é o produto mais vendido atualmente com 8551 unidades em todas as regiões.</p>
+</li>
+<li>
+<p>Placa de Vídeo é o produto com maior custo unitário</p>
+</li>
+<li>
+<p>Quantidade média de produtos vendidos na base éde 5 produtos por venda.</p>
+</li>
+<li>
+<p>Estatísticas calculadas</p>
+</li>
+<li>
+<p>Número de registros</p>
+</li>
+<li>
+<p>Min e Máx do faturamento</p>
+</li>
+<li>
+<p>Média de faturamento, custo, quantidade de produtos vendidos</p>
+</li>
+<li>
+<p>Ticket médio</p>
+</li>
+</ul>
+<h2 id="9-%F0%9F%8F%AC-estrutura-do-projeto">9. 🏬 Estrutura do Projeto</h2>
+<ul>
+<li><img src=".\imagens\Estrutura_Sistema.png" alt="Estrutura Sistema"></li>
+</ul>
+<h2 id="10-%F0%9F%93%B8-capturas-de-tela--exemplos-de-sa%C3%ADda">10. 📸 Capturas de Tela / Exemplos de Saída</h2>
+<ul>
+<li>
+<p>[Menu Principal]
+<img src=".\imagens\menu_principal.png" alt="Estrutura Sistema"></p>
+</li>
+<li>
+<p>[Módulo de Análise Exploratória]
+<img src=".\imagens\eda_vendas.png" alt="Estrutura Sistema"></p>
+</li>
+<li>
+<p>[Módulo Gerador de dataset]
+<img src=".\imagens\dataset_vendas.png" alt="Estrutura Sistema"></p>
+</li>
+<li>
+<p>[Dasboard Interativo]
+<img src=".\imagens\dashboard.png" alt="Estrutura Sistema"></p>
+</li>
+</ul>
+<h2 id="11-%F0%9F%A7%AA-testes-realizados">11. 🧪  Testes Realizados</h2>
+<ul>
+<li>Uso de notebook pra ir testanda as funcionalidades de forma isolada para mapear e corrigir os eros de fora pontual.</li>
+<li>Aplicação de fórmulas no e filtors no excel para comparar os resultados da aplicação com o os dados do aruivo csv.</li>
+<li>Criação de de dashboard com Power BI pra validaro o números.</li>
+<li>Recriação da base de testes para garantir que as fórmulas implementadas estavam corretas.</li>
+<li>Inserção de informações fora do padrão para que os fluxos de validação de dados fossem executados</li>
+</ul>
+<h2 id="12-%F0%9F%93%92-refer%C3%AAncias-e-bibliografia">12. 📒 Referências e Bibliografia</h2>
+<ul>
+<li>Documentação /Tutoriais Consultados
+<ul>
+<li>Documentação Oficial Python:  https://www.python.org/doc/</li>
+<li>Python Data Science Handbook: https://jakevdp.github.io/PythonDataScienceHandbook/</li>
+</ul>
+</li>
+<li>Tutoriais utilizados
+<ul>
+<li>Como Ordenar listas de dicionários com labmda: https://hub.asimov.academy/tutorial/como-ordenar-uma-lista-de-dicionarios-por-um-valor-do-dicionario-em-python/</li>
+<li>Entendendo funções lambda: https://hub.asimov.academy/tutorial/entendendo-as-funcoes-lambda-em-python/</li>
+<li>Dicionários em Python Guia Definitivo : https://hub.asimov.academy/blog/dicionario-python/</li>
+</ul>
+</li>
+<li>Datasets utilizados
+<ul>
+<li>./data/vendas.csv</li>
+</ul>
+</li>
+</ul>
+<h2 id="13-%F0%9F%91%A5-contribui%C3%A7%C3%B5es-dos-integrantes">13. 👥 Contribuições dos Integrantes</h2>
+<ul>
+<li>Divisão de trabalho
+<ul>
+<li>Não se aplica</li>
+</ul>
+</li>
+<li>Responsabilidades de cada integrante:
+<ul>
+<li>Não se aplica</li>
+</ul>
+</li>
+<li>Commits principais de cada membro
+<ul>
+<li>Owner - Stevens
+<ul>
+<li>Versão Final do projeto com readme.md e requirements.txt atualizados</li>
+<li>Versão Final do Projeto Vendas- Sem readme e sem requirements</li>
+<li>Projeto Sistema de vendas - Comitando a primeira versão do readme.md</li>
+<li>Ajuste do Notebokk para contempla a funçao de gravar as vendas no txt</li>
+<li>Salvando o projeto da cadeira Programação para Ciência de dados. (MBA Ciência de Dados)
+<img src=".\imagens\commits.png" alt="Commits do Projeto"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="14-%F0%9F%8E%AF-pr%C3%B3ximos-passos--melhorias-futuras">14. 🎯 Próximos Passos / Melhorias Futuras</h2>
+<ul>
+<li>Funcionalidades que poderiam ser adicionadas
+<ul>
+<li>Ampliação do módulo de vendas para contemplar a gestão de produtos, estoques, localidades.</li>
+<li>Migrar todos o relatórios e análises para o power BI conectado na base do sistema para permitir uma melhor experiência do usuário</li>
+</ul>
+</li>
+<li>Melhorias técnicas possíveis
+<ul>
+<li>Migrar a base de dados de arquivos &quot;.csv&quot; para um banco de dados permitindo uma melhor performance, segurança e robutez para a aplicação, assim como a sua escalabilidade.</li>
+<li>implementação de autenticação com login personalizado para cada usuário.</li>
+</ul>
+</li>
+<li>Expansões do projeto
+<ul>
+<li>Migrar a interface de console para web eliminado a necessidade de instalação de pacotes e risco de falha devido a erros e ou instalaçãoes mal sucedidas.</li>
+<li>além de eliminar incompatibilidades com sistemas operacionais</li>
+</ul>
+</li>
+</ul>
+
+</body>
+</html>

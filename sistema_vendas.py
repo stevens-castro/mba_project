@@ -114,6 +114,7 @@ def desempenho_vendedor(df):
     print("\n### Desempenho de vendas por vendedor ###")
     print(melhor_vendedor)
     input("\nPressione Enter para voltar ao menu...")
+    
 
 # Relatorio de vendas por região
 def desempenho_regiao(df):    
@@ -122,12 +123,14 @@ def desempenho_regiao(df):
     print(melhor_regiao)
     input("\nPressione Enter para voltar ao menu...")
 
+
 # Relatorio de vendas por produto
 def desempenho_produto(df):    
     melhor_produto = df.groupby(['Produto'])[['Quantidade','Faturamento','Lucro']].sum().sort_values(by=['Faturamento','Quantidade'], ascending=False)   
     print("\n### Desempenho de vendas por produto ###")
     print(melhor_produto)
     input("\nPressione Enter para voltar ao menu...")
+
 
 # Ralatório de Faturamento Anual
 def faturamento_anual(df):
@@ -150,7 +153,6 @@ def info_banco(df):
     print("\n### Exibinndo informações gerais sobre a base de dados de vendas ###")
     df.info() 
     input("\nPressione Enter para voltar ao menu...")
-
 
    
 # Função que insere uma nova venda (Append) no fnal do arquivo 'vendas.csv'
@@ -202,8 +204,7 @@ def salvar_df_venda(lista_vendas, caminho_arquivo="data/vendas.csv"):
     except Exception as e:
         print(f"\n❌ Ocorreu um erro ao salvar o arquivo CSV: {e}")
         
-    input("Pressione Enter para continuar...")      
-
+    input("Pressione Enter para continuar...")   
 
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------#
