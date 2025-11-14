@@ -1,18 +1,18 @@
-import os # (Opcional) Para limpar o console
-from datetime import datetime # Para registrar a data automaticamente
+import os 
+from datetime import datetime 
 from itertools import count
+import pandas as pd
 
+
+# Criando a pasta para salvar o banco de dados em .txt
+# Se a pasta já existir não é sobreescrita
+os.makedirs('data', exist_ok=True)
+print("✅ Pasta 'data' criada com sucesso!") 
 
 #Gerando código do produto de forma automática
 id_generator = count(start=1) 
 
-#Criando a pasta para salvar o banco de dados em .txt
-# Se a pasta ja existir não é sobreescrita
-os.makedirs('data', exist_ok=True)
-print("✅ Pasta 'data' criada com sucesso!") 
-
-
-#função praa limpar o console
+#função para limpar o console
 def limpar_console():
     """Limpa o terminal (funciona em Windows e Linux/Mac)."""
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -20,14 +20,13 @@ def limpar_console():
 #Função para criar o menu do sistema
 def mostrar_menu(menu_dict):
     """Exibe o menu principal formatado."""
-    print("===== Sistema de Vendas =====")
+    print("===== Bem Vindo ao Sistema Tech Vendas =====")
     for chave, valor in menu_dict.items():
         print(f"  {chave}: {valor}")
     print("=============================")
-    return input("Escolha uma opção: ")
+    return input("Escolha uma opção no menu do sistema: ")
 
-# Valida o input do usuário para os campos de texto, neste caso produto e vendedor
-# Pede um texto ao usuário e não aceita resposta vazia.
+# Função para validar a entrada de dados do tipo texto.
 def input_validado_texto(prompt):   
     while True:
         texto = input(prompt).strip()
@@ -36,8 +35,7 @@ def input_validado_texto(prompt):
         else:
             print("❌ Erro: Esse campo não pode ser nulo ou vazio!.")
 
-# Valida o input da quantidade do produto
-# Pede um número (float ou int) e não aceita valores inválidos ou negativos.
+# Função para validar a entrada de dados do tipo numérico.
 def input_validado_numero(prompt, tipo_numero=float):    
     while True:
         try:
@@ -58,283 +56,184 @@ def cadastrar_venda(lista_vendas):
     limpar_console()
     print("--- 1. Cadastro de Nova Venda ---")
        
-    # Coletando as entradas dos usuários
-    id_produto = next(id_generator) # ID do produto criado de forma automática. Nesse caso o usuário não vai precisar digitar!
-    produto = input_validado_texto("Produto: ") 
+    # Coletando as entradas dos usuários    
+    data_venda = datetime.now().strftime("%d/%m/%Y") # capturando a data atual e formatando para (Dia, Mês e Ano)     
+    regiao = input_validado_texto("Região: ")
     vendedor = input_validado_texto("Vendedor: ")
+    cliente = input_validado_texto("Cliente: ")
+    id_produto = next(id_generator) # ID do produto criado de forma automática. Nesse caso o usuário não vai precisar digitar!
+    produto = input_validado_texto("Produto: ")     
     quantidade = input_validado_numero("Quantidade: ", tipo_numero=int)
-    valor_unitario = input_validado_numero("Valor Unitário (R$): ", tipo_numero=float)
-    data_venda = datetime.now().strftime("%d/%m/%Y") # capturando a data atual e formatando para (Dia, Mês e Ano) 
+    preco_unitario = input_validado_numero("Preço Unitário (R$): ", tipo_numero=float)
+    custo_unitario = input_validado_numero("Custo Unitário (R$): ", tipo_numero=float)    
+    receita = preco_unitario * quantidade
+    lucro = round((preco_unitario - custo_unitario)* quantidade, 2)
    
     # Cria o dicionário com a nova venda
+    # a Colunas do me banco de dados (csv)
     nova_venda = {
-        "id_produto": id_produto,
-        "produto": produto,
+        "data": data_venda,        
+        "regiao": regiao,
         "vendedor": vendedor,
+        "cliente": cliente,
+        "id_produto": id_produto,
+        "produto": produto,       
         "quantidade": quantidade,
-        "valor_unitario": valor_unitario,
-        "data": data_venda,
-        "valor_total": quantidade * valor_unitario # Calcula o valor total da venda em tempo de execução
-    }
-    
-    # Adiciona os dados do dicionário na lista principal
+        "preco_unitario": preco_unitario,
+        "custo_unitario": custo_unitario,
+        "receita": receita,
+        "lucro": lucro ,             
+        
+    }    
+    # Adiciona os dados do dicionário 'nova_venda' na lista principal
     # Nesse caso temos uma lista de dicionários de vendas(nova_venda), onde cada dicionário representa uma venda
-    lista_vendas.append(nova_venda) 
-    
+    lista_vendas.append(nova_venda)     
     print("\n✅ Venda cadastrada com sucesso!")
-    print(f" Data: {data_venda} | Id_Produto: {id_produto} | Produto: {produto} | Vendedor: {vendedor} | Qtd: {quantidade} | Total: R$ {nova_venda['valor_total']:.2f}")
-    input("\nPressione Enter para voltar ao menu...")
-
-# Relatório de Vendas por Vendedores
-def calcular_total_vendedor(lista_vendas):
-    """
-    Calcula e exibe um relatório detalhado de performance por vendedor, incluindo:
-    - Quantidade de vendas
-    - Valor total vendido
-    - Valor médio por venda
-    - Ranking de vendedores ordenado de forma decrescente.
-    """   
-    limpar_console()     
-    print("--- 2. Relatório detalhado por Vendedores ---")
-
-    # PASSO 1: Verificar se a lista de vendas está vazia
-    if not lista_vendas:
-        print("Nenhuma venda cadastrada, favor cadastre uma venda.")
-        input("\nPressione Enter para voltar ao menu...")
-        return
-
-    # PASO 2: Agregar os dados de cada venda em um dicionário
-    # Para cada vendedor, vamos armazenar um sub-dicionário.
-    report_vendedores = {}
-    
-    for venda in lista_vendas:
-        vendedor = venda["vendedor"]
-        total_da_venda = venda["valor_total"]
-        
-        # Se o vendedor não existe no dicionário adicionamos ele
-        if vendedor not in report_vendedores:            
-            report_vendedores[vendedor] = {
-                'total_vendido': 0.0,
-                'qtd_vendas': 0
-                # A média será calculada depois
-            }
-        
-        # Atualizamos os dados do vendedor com a venda atual
-        report_vendedores[vendedor]['total_vendido'] += total_da_venda
-        report_vendedores[vendedor]['qtd_vendas'] += 1
-
-    # PASSO 3: Calcular a média de venda de cada vendedor
-    # Agora que temos o total e a quantidade, podemos calcular a média.
-    # Percorre o dicionário "report_vendedores", para pegar os dados de cada vendedor
-    for vendedor, dados in report_vendedores.items():        
-        dados['media'] = dados['total_vendido'] / dados['qtd_vendas'] # Adiciona a nova chave 'media' ao dicionário e faz o calculo da média
-        
-    # PASSO 4: Criar o Ranking de vendedores (Ordenação decrescente)
-    # A. Convertemos o dicionário para uma LISTA de tuplas: 
-    # B. Usamos a função sorted() para ordenar esta lista com os parâmetros.
-    #    * key: A "chave de ordenação". Informa ao Python COMO comparar dois itens.
-    #    * lambda item: ...: A expressão lambda item: item[‘Total Vendido’] indica ao Python que cada tupla item na lista de dicionários deve ser ordenado com base no valor da chave ‘Total Vendido’.
-    #    * item[1]: Acessa o segundo elemento da tupla (o dicionário de dados).
-    #    * item[1]['total_vendido']: Acessa o valor que queremos usar para ordenar.
-    #    * reverse=True: Ordena do maior para o menor.
-    
-    ranking = sorted(
-        report_vendedores.items(), 
-        key=lambda item: item[1]['total_vendido'], 
-        reverse=True
-    )
-
-    # PASSO 5: Gerando o relatório para exibir os resultados formatados 
-    print("\n--- Ranking de Vendedores (Em ordem decrescente) ---")
-    # Usamos f-strings com alinhamento (<) para criar colunas do relatório
-    print(f"{'Rank':<5} | {'Vendedor':<17} | {'Total Vendido':<15} | {'Qtd. Vendas':<12} | {'Venda Média':<15}")
-    print("-" * 71) # Linha separadora
-    
-    # Iteramos pela LISTA ORDENADA (ranking)
-    # enumerate(ranking, start=1) nos dá o índice (Rank) começando do 1
-    for i, (vendedor, dados) in enumerate(ranking, start=1):        
-        # Extrai os dados para facilitar a leitura
-        total = dados['total_vendido']
-        qtd = dados['qtd_vendas']
-        media = dados['media']
-        
-        # Imprime os dados formatada
-        print(f"{i:<5} | {vendedor:<17} | R$ {total:<13.2f} | {qtd:<12} | R$ {media:<13.2f}")
-
+    print(f" Data: {data_venda} | Região: {regiao} | Id_Produto: {id_produto} | Produto: {produto} | Vendedor: {vendedor} | Cliente: {cliente} | Qtd: {quantidade} | Total: R$ {nova_venda['receita']:.2f}")
     input("\nPressione Enter para voltar ao menu...")
 
 
-# Relatório de Vendas por produtos vendidos
-def calcular_total_produto(lista_vendas):
-    """Calcula e exibe o total vendido de cada produto."""
-    limpar_console()
-    print("--- 3. Total de Vendas por Produto ---")
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    if not lista_vendas:
-        print("Nenhuma venda cadastrada, favor cadastre uma venda.")
-        input("\nPressione Enter para voltar ao menu...")
-        return
+# --- Limpeza e Preparação dos Dados ---
+# Converter as colunas 'Data', 'Receita', 'Custo', 'Lucro' para o tipo correto
+def prepara_dataframe(df):
+    #print("\n Neste caso as colunas 'Data', 'Receita', 'Custo', 'Lucro' que estão como object vamos converter para seu respctivo tipo correto")
+    df['Data'] = pd.to_datetime(df['Data']) #Convertendo a coluna de data para o tipo data
+    df['Faturamento'] = df['Faturamento'].str.replace(',', '.', regex=False)
+    df['Faturamento'] = df['Faturamento'].astype(float).round(2)
+    df['Custo_Unitario'] = df['Custo_Unitario'].str.replace(',', '.', regex=False)
+    df['Custo_Unitario'] = df['Custo_Unitario'].astype(float).round(2)
+    df['Lucro'] = df['Lucro'].str.replace(',', '.', regex=False)
+    df['Lucro'] = df['Lucro'].astype(float).round(2)
 
-    # Dicionário para agregar os totais por produto
-    totais_produto = {}
-    
-    for venda in lista_vendas:
-        produto = venda["produto"]
-        total = venda["valor_total"]
-        qtd = venda["quantidade"]
-        
-        if produto not in totais_produto:
-            totais_produto[produto] = {
-            "total_valor": 0.0,
-            "total_qtd": 0
-        }        
-        totais_produto[produto]["total_valor"] += total
-        totais_produto[produto]["total_qtd"] += qtd
-        
-    # Exibe os resultados
-    for produto, totais in totais_produto.items():
-        valor = totais["total_valor"]
-        quantidade = totais["total_qtd"]
-        print(f"  Produto: {produto:<15} qtd: {quantidade:<15} | Total: R$ {valor:.2f}")
 
+# Relatorio de vendas por vendedor
+def desempenho_vendedor(df):    
+    melhor_vendedor = df.groupby(['Vendedor','Produto'])[['Quantidade','Faturamento', 'Lucro']].sum().sort_values(by='Faturamento', ascending=False)    
+    print("\n### Desempenho de vendas por vendedor ###")
+    print(melhor_vendedor)
     input("\nPressione Enter para voltar ao menu...")
 
-# Relatorio geral de Vendas 
-def ver_todas_vendas(lista_vendas):
-    """Exibe uma lista de todas as vendas cadastradas."""
-    limpar_console()
-    print("--- 4. Todas as Vendas Registradas ---")
-
-    if not lista_vendas:
-        print("Nenhuma venda cadastrada, favor cadastre uma venda.")
-    else:
-        for i, venda in enumerate(lista_vendas):
-            print(f"  Venda #{i+1} | {venda['data']}")
-            print(f"    Id Produto: {venda['id_produto']}")
-            print(f"    Produto: {venda['produto']}")
-            print(f"    Vendedor: {venda['vendedor']}")
-            print(f"    Qtd: {venda['quantidade']} x R$ {venda['valor_unitario']:.2f} = R$ {venda['valor_total']:.2f}")
-            print("-" * 20)
-
+# Relatorio de vendas por região
+def desempenho_regiao(df):    
+    melhor_regiao = df.groupby(['Regiao','Produto'])[['Faturamento']].sum().sort_values(by='Faturamento', ascending=True)   
+    print("\n### Desempenho de vendas por região ###")
+    print(melhor_regiao)
     input("\nPressione Enter para voltar ao menu...")
 
-#Relatório de vendas agrupadas por mes, com aopção do usuário escolher o ano 
-def calcular_vendas_por_mes(lista_vendas):
-    """
-    Pede um ano ao usuário e exibe um relatório de vendas
-    agrupado por mês e, dentro de cada mês, por produto.
-    """
-    limpar_console()
-    print("--- 6. Relatório de Vendas por Mês/Ano ---")
-    
-    # 1. Verifica se existe alguma venda
-    if not lista_vendas:
-        print("Nenhuma venda cadastrada, favor cadastre uma venda.")
-        input("\nPressione Enter para voltar ao menu...")
-        return
-        
-    # 2. Solicita o ano para o usuário (validando como número inteiro)
-    try:
-        ano_selecionado = input_validado_numero("Digite o ano que deseja analisar (ex: 2024): ", tipo_numero=int)
-    except KeyboardInterrupt:
-        print("\nOperação cancelada.")
-        return
-
-    # 3. Estrutura para agrupar os dados
-    # Usaremos um dicionário aninhado: {mes: {produto: total}}
-    vendas_agrupadas = {} #Dicionário que vai receber as vendas agrupadas por mês
-    
-    # 4. Loop principal: processa cada venda na lista
-    for venda in lista_vendas:        
-        # 1- Converter a data (string) de volta para um objeto datetime
-        # Isso é necessário para extrair o .year e o .month
-        # O formato "%d/%m/%Y %H:%M:%S" DEVE ser idêntico ao usado no cadastro
-        try:
-            data_venda_produto = datetime.strptime(venda["data"], "%d/%m/%Y")
-        except ValueError:
-            print(f"Aviso: Caso a data não seja válida a venda será Ignorada passando para a próxima venda : {venda['data']}")
-            continue #Pula para a próxima venda
-
-        # 2- FILTRAR: Verifica se a venda pertence ao ano selecionado
-        if data_venda_produto.year == ano_selecionado:
-            
-            # 3- Extrair os dados necessários
-            mes = data_venda_produto.month
-            produto = venda["produto"]
-            total_venda = venda["valor_total"]
-            
-            # 4- AGRUPAR: Adiciona os dados na nossa estrutura            
-            # Se o mês (ex: 1) ainda não está no dicionário, cria-o
-            if mes not in vendas_agrupadas:
-                vendas_agrupadas[mes] = {}
-                
-            # Se o produto ainda não está no mês, cria-o
-            if produto not in vendas_agrupadas[mes]:
-                vendas_agrupadas[mes][produto] = 0.0
-                
-            # Soma o valor da venda ao total
-            vendas_agrupadas[mes][produto] += total_venda
-
-    # 5. Exibição dos resultados
-    if not vendas_agrupadas:
-        print(f"\nNenhuma venda encontrada para o ano de {ano_selecionado}.")
-    else:
-        print(f"\n--- Relatório de vendas para do ano: {ano_selecionado} ---")
-        
-        # Lista para exibir os nomes dos meses (melhora a leitura)
-        nomes_meses = (None, "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                       "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
-
-        # 1- Loop pelos meses encontrados (ordenados)
-        # .keys() pega as chaves (1, 2, 3...) e sorted() as ordena
-        for mes_num in sorted(vendas_agrupadas.keys()):
-            print(f"\n Mês: {nomes_meses[mes_num]} de {ano_selecionado}")
-            
-            # Pega o dicionário interno de produtos para este mês
-            produtos_do_mes = vendas_agrupadas[mes_num]
-            
-            # 2- Loop pelos produtos do mês (ordenados)
-            for produto_nome in sorted(produtos_do_mes.keys()):
-                total_produto = produtos_do_mes[produto_nome]
-                # Exibe o resultado final
-                print(f"    Produto: {produto_nome:<15} | Total Vendido: R$ {total_produto:.2f}")
-
+# Relatorio de vendas por produto
+def desempenho_produto(df):    
+    melhor_produto = df.groupby(['Produto'])[['Quantidade','Faturamento','Lucro']].sum().sort_values(by=['Faturamento','Quantidade'], ascending=False)   
+    print("\n### Desempenho de vendas por produto ###")
+    print(melhor_produto)
     input("\nPressione Enter para voltar ao menu...")
+
+# Ralatório de Faturamento Anual
+def faturamento_anual(df):
+    df['Ano'] = df['Data'].dt.year
+    df['Mes'] = df['Data'].dt.month
+    #faturamento_anual = df.groupby(['Ano', 'Vendedor'])[['Faturamento']].sum().sort_values(by='Ano', ascending=True)
+    faturamento_anual = df.groupby(['Ano', 'Mes','Regiao', 'Cliente']).agg(
+        Faturamento = ('Faturamento', 'sum'),
+        Custo= ('Custo_Unitario', 'sum'),
+        Fat_medio = ('Faturamento', 'mean')
+    ).round(2)
+
+    print("\n### Faturamento Anual:")
+    print(faturamento_anual)
+    input("\nPressione Enter para voltar ao menu...")
+
+    
+#Função para mostrar informações gerais sobre a base de dados
+def info_banco(df):
+    print("\n### Exibinndo informações gerais sobre a base de dados de vendas ###")
+    df.info() 
+    input("\nPressione Enter para voltar ao menu...")
+
+
    
+# Função que insere uma nova venda (Append) no fnal do arquivo 'vendas.csv'
+def salvar_df_venda(lista_vendas, caminho_arquivo="data/vendas.csv"):
+    if not lista_vendas:
+        print("\n(Nenhuma nova venda para salvar.)")
+        return # Sai da função
+    
+    # tratamento de exceção, para os casos de algum erro
+    try:
+        df_nova_venda = pd.DataFrame(lista_vendas)
+    except Exception as e:
+        print(f" Erro ao converter lista da Dataframe: {e}")
+        return
+    
+    # Checando se temos o arquivo na pasta e se ele tem dados gravados,
+    # caso o arquivo exista e tenha dados, os mesmos serão inserido no final do arquivo csv
+    database_existe = False
+    if os.path.exists(caminho_arquivo):
+        if os.path.getsize(caminho_arquivo) > 0:
+            database_existe = True
+   
+   #Salvando a venda no arquivo csv com tratamento de exceção
+    try:
+        if database_existe:
+            df_nova_venda.to_csv(
+                caminho_arquivo,
+                mode='a',
+                header= False,
+                index=False,
+                encoding='utf-8',
+                sep=';'
+            )
+            print(f"\n✅ {len(df_nova_venda)} nova venda cadastrada em {caminho_arquivo}")
+            lista_vendas.clear()
+        
+        else:
+            df_nova_venda.to_csv(
+                caminho_arquivo,
+                mode='a',
+                header= True,
+                index=False,
+                encoding='utf-8',
+                sep=';'
+            )
+            print(f"\n✅ Base de Dados Criada {caminho_arquivo} com {len(df_nova_venda)} inserida")
+            lista_vendas.clear()
+    
+    except Exception as e:
+        print(f"\n❌ Ocorreu um erro ao salvar o arquivo CSV: {e}")
+        
+    input("Pressione Enter para continuar...")      
 
-# Função para salvar as vendas em memória para um aruivo txt
-def gravar_vendas(lista_vendas):
-    """Salva as vendas cadastradas no arquivo texto."""
-    # Abre o arquivo em modo escrita
-    with open('data/vendas.txt', 'w', encoding='utf-8') as f:        
-        for vendas in lista_vendas: # Percorre a lista de vendas e vai adicionado no arquivo
-            f.write(f"{vendas['id_produto']}; ")
-            f.write(f"{vendas['produto']}; ")
-            f.write(f"{vendas['vendedor']}; ")
-            f.write(f"{vendas['quantidade']}; ")
-            f.write(f"{vendas['valor_unitario']}; ")
-            f.write(f"{vendas['data']}; ")
-            f.write(f"{vendas['valor_total']}; ")
-            f.write("---\n")  
 
 
+# -----------------------------------------------------------------------------------------------------------------------------------------------------#
 # --- Função Principal (Main) ---
 def main():
-    # Esta é a sua "base de dados" principal que armazena
+    
+    # Carregando o dataframe com os dados do arquivo de vendas.csv (base dados)
+    df_vendas = pd.read_csv("./data/vendas.csv", sep=';')
+
+    # Prepara os dados e faz os tratamentos necessários para exibiçao dos valores
+    prepara_dataframe(df_vendas)
+
+    # Esta é a sua "base de dados" principal que armazena as vendas que estão sendo cadastradas
     lista_de_vendas = []
     
-    # Dicionário do Menu Inicial
+    # Dicionário que exibe o Menu Principal do Sistema
     dict_Menu = {
         "1": "Cadastrar Nova Venda",
-        "2": "Relatório de Vebdas por Vendedor",
-        "3": "Relatório de Vendas por Produto",
-        "4": "Relatório Total de Vendas",
-        "5": "Relatório de Vendas por Mês",
+        "2": "Relatório de Vendas por Vendedor",
+        "3": "Relatório de Vendas por Região",
+        "4": "Relatório de Vendas por Produto",
+        "5": "Relatório Faturamento Anual",
         "6": "Salvar Venda no BD",
-        "7": "Sair",
+        "7": "Dataset Info",
+        "8": "Sair",
+       
     }
 
-    # Loop principal do programa
+    # Loop principal do programa,
+    # onde escolhemos as opções do sistema de vendas
     while True:
         limpar_console()
         escolha = mostrar_menu(dict_Menu)
@@ -343,24 +242,28 @@ def main():
             cadastrar_venda(lista_de_vendas)
         
         elif escolha == "2":
-            calcular_total_vendedor(lista_de_vendas)
+            desempenho_vendedor(df_vendas)
             
         elif escolha == "3":
-            calcular_total_produto(lista_de_vendas)
+            desempenho_regiao(df_vendas)
             
         elif escolha == "4":
-            ver_todas_vendas(lista_de_vendas)
+            desempenho_produto(df_vendas)
 
         elif escolha == "5":
-            calcular_vendas_por_mes(lista_de_vendas)
+            faturamento_anual(df_vendas)
 
         elif escolha == "6":
-            print("\n Salvando as informações no Banco de Dados!")              
-            gravar_vendas(lista_de_vendas)
-
+            print("\n Salvando as informações no Banco de Dados!")                          
+            salvar_df_venda(lista_de_vendas)
+        
         elif escolha == "7":
+            print("\n Informação do dataset")              
+            info_banco(df_vendas)            
+
+        elif escolha == "8":
             print("\n Saindo do sistema. Até logo!")
-            break          
+            break   
             
         else:
             print(f"\nErro: Opção '{escolha}' inválida. Tente novamente.")
