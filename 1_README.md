@@ -310,15 +310,19 @@ estatisticas_produto = {
 
 ## 10. 📸 Capturas de Tela / Exemplos de Saída
   - [Menu Principal]
+
   ![Estrutura Sistema](.\\imagens\\menu_principal.png)
 
   - [Módulo de Análise Exploratória]
+
   ![Estrutura Sistema](.\\imagens\\eda_vendas.png)
 
   - [Módulo Gerador de dataset]
+
   ![Estrutura Sistema](.\\imagens\\dataset_vendas.png)
 
   - [Dasboard Interativo]
+
   ![Estrutura Sistema](.\\imagens\\dashboard.png)
  
 ## 11. 🧪  Testes Realizados
@@ -346,11 +350,14 @@ estatisticas_produto = {
     - Não se aplica 
   - Commits principais de cada membro
     - Owner - Stevens
+      - Ajustes do README.md
       - Versão Final do projeto com readme.md e requirements.txt atualizados  
       - Versão Final do Projeto Vendas- Sem readme e sem requirements
       - Projeto Sistema de vendas - Comitando a primeira versão do readme.md      
       - Ajuste do Notebokk para contempla a funçao de gravar as vendas no txt
       - Salvando o projeto da cadeira Programação para Ciência de dados. (MBA Ciência de Dados)
+      - teste
+
        ![Commits do Projeto](.\\imagens\\commits.png)
 
 ## 14. 🎯 Próximos Passos / Melhorias Futuras
